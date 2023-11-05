@@ -61,35 +61,36 @@ export default function LoginForm() {
 				}
 			})
 			.catch((err) => {
-				axiosSecure.get(`/users/user-exists/${tempEmail}`)
-					.then(res => {
-						if(res.data === "user-not-found") {
-							Swal.fire({
-								title: "User doesn't exist",
-								icon: "error",
-								confirmButtonText: "Close",
-							}).then(() => {
-								setLoading(false);
-							});
-						} else if(err.code === "auth/invalid-login-credentials") {
-							Swal.fire({
-								title: "Incorrect Password",
-								icon: "error",
-								confirmButtonText: "Close",
-							}).then(() => {
-								setLoading(false);
-							});
-						} else if(err.code === "auth/too-many-requests") {
-							Swal.fire({
-								title: "Account has been temporarily disabled",
-								text: "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
-								icon: "error",
-								confirmButtonText: "Close",
-							}).then(() => {
-								setLoading(false);
-							});
-						}
-					})
+				console.error(err);
+				// axiosSecure.get(`/users/user-exists/${tempEmail}`)
+				// 	.then(res => {
+				// 		if(res.data === "user-not-found") {
+				// 			Swal.fire({
+				// 				title: "User doesn't exist",
+				// 				icon: "error",
+				// 				confirmButtonText: "Close",
+				// 			}).then(() => {
+				// 				setLoading(false);
+				// 			});
+				// 		} else if(err.code === "auth/invalid-login-credentials") {
+				// 			Swal.fire({
+				// 				title: "Incorrect Password",
+				// 				icon: "error",
+				// 				confirmButtonText: "Close",
+				// 			}).then(() => {
+				// 				setLoading(false);
+				// 			});
+				// 		} else if(err.code === "auth/too-many-requests") {
+				// 			Swal.fire({
+				// 				title: "Account has been temporarily disabled",
+				// 				text: "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
+				// 				icon: "error",
+				// 				confirmButtonText: "Close",
+				// 			}).then(() => {
+				// 				setLoading(false);
+				// 			});
+				// 		}
+				// 	})
 			});
 	};
 	

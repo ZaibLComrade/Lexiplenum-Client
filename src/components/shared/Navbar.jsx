@@ -34,7 +34,7 @@ const listItems = (
 );
 
 export default function Navbar() {
-	const { user, signOutUser } = useAuth();
+	const { user, logoutUser } = useAuth();
 
 	return (
 		<Headroom>
@@ -114,7 +114,7 @@ export default function Navbar() {
 							</li>
 							<li className="text-accent">
 								{user ? (
-									<a onClick={signOutUser}>Sign Out</a>
+									<a onClick={logoutUser}>Sign Out</a>
 								) : (
 									<Link to="/login">Login</Link>
 								)}
@@ -149,7 +149,7 @@ export default function Navbar() {
 						{user ? (
 							<button
 								className="ml-2 btn btn-secondary"
-								onClick={signOutUser}
+								onClick={logoutUser}
 							>
 								Sign Out
 							</button>

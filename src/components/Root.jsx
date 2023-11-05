@@ -1,5 +1,19 @@
-export default function Root() {
-	return <>
-		<h1 className="text-red-500">Hello World</h1>
-	</>
+import { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { Outlet } from "react-router-dom";
+import Navbar from "./shared/Navbar";
+import Headroom from "react-headroom";
+import LoadingScreen from "./LoadingScreen";
+
+export  default function Root() {
+	const [isDark, setIsDark] = useState(false)
+	const { loading } = useAuth();
+	if(loading) return <LoadingScreen/>
+	
+	return <div data-theme={ isDark ? "dark" : "light" }>
+		<Headroom>
+			<Navbar setDark={ setIsDark }/>
+		</Headroom>
+		<Outlet/>
+	</div>
 }

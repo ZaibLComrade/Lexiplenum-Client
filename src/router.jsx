@@ -7,6 +7,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AddBooks from "./components/books/AddBooks";
 import Home from "./components/home/Home";
 import AllBooks from "./components/books/AllBooks";
+import BorrowedBooks from "./components/books/BorrowedBooks";
 import url from "./url";
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
 				loader: () => fetch(`${url}/books`)
 			}, {
 				path: "/books/borrowed",
-				element: <PrivateRoute><div>Borrowed books element under construction</div></PrivateRoute>
+				element: <PrivateRoute><BorrowedBooks/></PrivateRoute>
 			}, {
 				path: "/login",
 				element: <LoginPage/>

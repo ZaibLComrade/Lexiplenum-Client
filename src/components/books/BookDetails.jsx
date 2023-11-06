@@ -1,75 +1,43 @@
-import {useState} from "react";
 import { Rating } from "@mui/material";
-import {useLoaderData} from "react-router-dom"
-import { PiShoppingCart } from "react-icons/pi";
+import {useLoaderData, useParams} from "react-router-dom"
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 
 export default function BookDetails() {
-	const { userId } = useAuth();
-	const [quantity, setQuantity] = useState(1);
+	const axiosSecure = useAxiosSecure();
 	const book = useLoaderData()
-	const { image, title, author, category_name, rating, description } = book;
-	
-	const increment = () => {
-		setQuantity(parseFloat(quantity + 1));
-	}
-	
-	const decrement = () => {
-		const val = parseFloat(quantity - 1);
-	}
-	
-	const handleNumber = e => {
-		const inpValue = e.target.value;
-		if(e.target.value -1 <= -2) return
-		setQuantity(inpValue);
-	}
-	
-
+	const id = useParams().id
+	const { image, title, author, quantity, category_name, rating, description } = book;
+	const { user } = useAuth();
 	
 	const handleBorrow = e => {
-		// e.preventDefault();
-		// const totalPrice = (price * quantity).toFixed(2);
-		// if(totalPrice <= 0) Swal.fire({
-		// 	title: "Please enter a valid quantity",
-		// 	icon: "warning",
-		// 	confirmButtonText: "Close",
-		// }).then(() => setQuantity(0));
-		// else if(userId) {
-		// 	const productInfo = {
-		// 		_id,
-		// 		img,
-		// 		name,
-		// 		type,
-		// 		brand_name,
-		// 		price,
-		// 		quantity,
-		// 		total: price * quantity,
-		// 	};
-			
-		// 	fetch(`${server}/userdetails/${userId}`, {
-		// 		method: "PATCH",
-		// 		headers: {
-		// 			"content-type": "application/json",
-		// 		},
-		// 		body: JSON.stringify(productInfo),
-		// 	}).then(response => response.json())
-		// 		.then(result => {
-		// 			if(result.acknowledged) {
-		// 				Swal.fire({
-		// 					title: "Product added to cart successfully",
-		// 					confirmButtonText: "Close",
-		// 					icon: "success",
-		// 				})
-		// 			}
-		// 		})
-		// } else {
-		// 	Swal.fire({
-		// 		title: "User not found",
-		// 		confirmButtonText: "Close",
-		// 		icon: "error",
-		// 	})
-		// }
+		e.preventDefault();
+		if(quantity <= 0) Swal.fire({
+			title: "Not available",
+			icon: "warning",
+			confirmButtonText: "Close",
+		});
+		
+		const email = user.email;
+		axiosSecure.patch(`/users/borrow?id=${id}&email=${email}`)
+			.then(result => {
+				const { modifiedCount, matchedCount } = result.data;
+				if(modifiedCount === 0 && matchedCount === 1) {
+					Swal.fire({
+						title: "You already borrowed this book",
+						confirmButtonText: "Close",
+						icon: "warning",
+					})
+				}
+				else if(modifiedCount === 1) {
+					Swal.fire({
+						title: "Book borrowed successfully",
+						confirmButtonText: "Close",
+						icon: "success",
+					})
+				}
+			})
 	}
 	
 	return <div className="container space-y-12 mx-auto py-[70px]">
@@ -92,27 +60,14 @@ export default function BookDetails() {
 							<div className="text-center md:text-left max-sm:mx-auto w-max space-y-3">
 								<p>Rating: <span>{ rating }</span></p>
 								<div className="relative right-2 rating rating-lg rating-half">
-											
+									<Rating name="rating" defaultValue={rating} precision={0.5} size="large" readOnly/>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div className="text-center space-y-4 grow">
 						<div className="flex items-center justify-center gap-4">
-							<p>Quantity:</p>
-							<div>
-<div className="w-32 h-10 custom-number-input">
-  <div className="relative flex flex-row w-full h-10 mt-1 bg-transparent rounded-lg">
-    <button onClick={ decrement } className="w-20 h-full text-gray-600 bg-gray-300 rounded-l outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-400">
-      <span className="m-auto text-2xl font-thin" onClick={ () => setQuantity(parseFloat(quantity - 1)) }>−</span>
-    </button>
-	<input type="number" onChange={ handleNumber } className="flex items-center w-full font-semibold text-center text-gray-700 bg-gray-300 outline-none focus:outline-none text-md hover:text-black focus:text-black md:text-basecursor-default" name="custom-input-number" value={ quantity }></input>
-  <button onClick={ increment } className="w-20 h-full text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
-	<span className="m-auto text-2xl font-thin">+</span>
-  </button>
-	</div>
-</div>
-							</div>
+							<p>Quantity: <span>{ quantity }</span></p>
 						</div>
 						{/* <div className="text-3xl"> */}
 						{/* 	<p><span>Price:</span> <span>{ price } $</span></p> */}
@@ -124,7 +79,7 @@ export default function BookDetails() {
 						{/* 	</p> */}
 						{/* </div> */}
 						<div>
-							<button onClick={ handleBorrow } className="btn btn-primary"><span className="text-xl"><PiShoppingCart/></span>Borrow</button>
+							<button onClick={ handleBorrow } className="btn btn-primary">Borrow</button>
 						</div>
 					</div>
 				</div>

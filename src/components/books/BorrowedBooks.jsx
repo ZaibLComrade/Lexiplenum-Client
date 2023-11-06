@@ -36,7 +36,7 @@ export default function BorrowedBooks() {
 		// 	});
 	}
 	
-	return <div className="container mx-auto lg:flex max-lg:space-y-8 px-4 flex-row-reverse gap-4 py-[70px]">
+	return <div className="container mx-auto min-h-[100vh] lg:flex max-lg:space-y-8 px-4 flex-row-reverse gap-4 py-[70px]">
 		{/* <div className="mx-auto h-max md:min-w-[300px] max-w-[400px] md:w-[400px] rounded-xl border"> */}
 		{/* 	<div className="p-4 space-y-8"> */}
 		{/* 		<h2 className="mx-auto text-5xl w-max">My Cart</h2> */}

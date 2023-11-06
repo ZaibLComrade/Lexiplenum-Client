@@ -1,6 +1,6 @@
 import { Rating } from "@mui/material";
 import {useEffect, useState} from "react";
-import {useLoaderData, useLocation} from "react-router-dom";
+import {useLoaderData, useLocation, Link} from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function AllBooks() {
@@ -37,14 +37,14 @@ export default function AllBooks() {
 								<Rating name="rating" defaultValue={book.rating} precision={0.5} size="large" readOnly/>
 								<p><span>Description:</span> <span>{ book.description }</span></p>
 								</div>
-								{/* <div className="flex normal-case font-montserrat justify-evenly"> */}
-								{/* 	<Link to={`/products/details/${books._id}`}> */}
-								{/* 		<button className="btn btn-primary">Details</button> */}
-								{/* 	</Link> */}
+								<div className="flex normal-case font-montserrat justify-evenly">
+									<Link to={`/books/details/${book._id}`}>
+										<button className="btn btn-primary">Details</button>
+									</Link>
 								{/* 	<Link to={ `/products/update/${books._id}` }> */}
 								{/* 		<button className="btn btn-primary">Update</button> */}
 								{/* 	</Link> */}
-								{/* </div> */}
+								</div>
 							</div>
 					</div>) :
 					<div className="mx-auto h-[50vh] relative col-span-2 w-max">

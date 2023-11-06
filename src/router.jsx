@@ -9,6 +9,7 @@ import Home from "./components/home/Home";
 import AllBooks from "./components/books/AllBooks";
 import BorrowedBooks from "./components/books/BorrowedBooks";
 import url from "./url";
+import BookDetails from "./components/books/BookDetails";
 
 const router = createBrowserRouter([
 	{
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
 			}, {
 				path: "/books/borrowed",
 				element: <PrivateRoute><BorrowedBooks/></PrivateRoute>
+			}, {
+				path: "/books/details/:id",
+				element: <PrivateRoute><BookDetails/></PrivateRoute>,
+				loader: ({ params }) => fetch(`${url}/book/${params.id}`)
 			}, {
 				path: "/login",
 				element: <LoginPage/>

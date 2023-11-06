@@ -14,20 +14,20 @@ export default {
 		themes: [
 			{
 				light: {
-					"primary": "#0A4F6D",
-					"secondary": "#CCCCCC",
+					"primary": "#007ACC",
+					"secondary": "#00A87E",
 					"accent": "#DC143C",
-					"neutral": "#FFB6C1",
+					"neutral": "#F9F9F9",
 					"base-100": "#ffffff",
 				},
 			},
 			{
 				dark: {
-					"primary": "#0A4F6D",
-					"secondary": "#CCCCCC",
-					"accent": "#DC143C",
-					"neutral": "#FFB6C1",
-					"base-100": "#212121"
+					"primary": "#1E90FF",
+					"secondary": "#00CED1",
+					"accent": "#FF7F50",
+					"neutral": "#1A1A1A",
+					"base-100": "#2E2E2E"
 				}
 			}
 		],

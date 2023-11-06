@@ -32,7 +32,7 @@ export default function Navbar() {
 	const { user, logoutUser } = useAuth();
 
 	return (
-		<div className="py-4 navbar bg-primary text-custom-grey-1">
+		<div className="py-4 navbar bg-primary text-custom-grey-1 dark:text-white">
 			<div className="navbar-start font-montserrat">
 				<div className="dropdown">
 					<label tabIndex={0} className="btn btn-ghost xl:hidden">

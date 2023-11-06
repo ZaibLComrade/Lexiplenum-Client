@@ -64,7 +64,7 @@ export default function RegisterForm() {
 					const user = userCredential.user;
 					const userData = {
 						name: user.displayName,
-						img: user.photoURL,
+						image: user.photoURL,
 						email: user.email,
 						role: "user",
 						creationTime: user?.metadata?.creationTime,
@@ -73,7 +73,6 @@ export default function RegisterForm() {
 					}
 					setUser(userCredential.user);
 					axiosSecure.post(`/users`, userData)
-						.then(res => console.log(res.data));
 					
 					logoutUser();
 					loginUser(email, password)
@@ -106,25 +105,6 @@ export default function RegisterForm() {
 			confirmButtonText: "Ok",
 		})
 	}
-	
-	// Runs when form is submitted
-	const handleFormSubmit = (e) => {
-		e.preventDefault(); // Prevents reload when submitted
-		
-		// Collecting form input data
-		const form = new FormData(e.currentTarget);
-		const name = form.get("name");
-		const image = form.get("url");
-
-		const email = form.get("email");
-		const password = form.get("password");
-		if (!validatePassword(password)) {
-			return;
-		}
-		
-		// Creating firebase user
-		
-	};
 	
 	return (
 		<div>

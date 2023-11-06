@@ -25,11 +25,6 @@ const listItems = (
 				<span className="underlay"></span>Borrowed Books
 			</NavLink>
 		</li>
-		<li>
-			<NavLink className="underlay-parent" to="/login">
-				<span className="underlay"></span>Login
-			</NavLink>
-		</li>
 	</>
 );
 

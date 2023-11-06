@@ -6,6 +6,8 @@ import RegisterPage from "./components/register/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
 import AddBooks from "./components/books/AddBooks";
 import Home from "./components/home/Home";
+import AllBooks from "./components/books/AllBooks";
+import url from "./url";
 
 const router = createBrowserRouter([
 	{
@@ -23,7 +25,8 @@ const router = createBrowserRouter([
 				element: <PrivateRoute><AddBooks/></PrivateRoute>
 			}, {
 				path: "/books/all",
-				element: <PrivateRoute><div>All books route under construction</div></PrivateRoute>
+				element: <PrivateRoute><AllBooks/></PrivateRoute>,
+				loader: () => fetch(`${url}/books`)
 			}, {
 				path: "/books/borrowed",
 				element: <PrivateRoute><div>Borrowed books element under construction</div></PrivateRoute>
@@ -33,6 +36,10 @@ const router = createBrowserRouter([
 			}, {
 				path: "/register",
 				element: <RegisterPage/>
+			}, {
+				path: "/books/:category",
+				element: <AllBooks/>,
+				loader: ({ params }) => fetch(`${url}/books/${params.category}`)
 			}
 		]
 	},

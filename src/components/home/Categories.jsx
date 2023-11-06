@@ -7,21 +7,25 @@ export default function Categories() {
 	const axiosSecure = useAxiosSecure();
 	
 	useEffect(() => {
-		axiosSecure.get("/books/categories")
+		axiosSecure.get("/categories")
 			.then(res => setCategories(res.data));
 	}, [axiosSecure])
 	
 	return <div className="p-4 mx-auto space-y-12">
 		<div className="mx-auto w-max"><span className="text-6xl font-raleway">Categories</span></div>
-		<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+		<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 			{
 				categories.length ? categories.map(categ => <div key={ categ._id }>
-					<Link className="shadow-xl hover:shadow-2xl rounded-2xl">
-						<figure className="h-[350px] border">
-							{/* <img src={ brand.brand_img } className="object-cover w-full h-full rounded-2xl"/> */}
+					<div className="shadow-xl rounded-2xl">
+						<figure className="h-[350px] relative">
+							<img src={ categ.image } className="object-cover w-full h-full rounded-2xl"/>
+							<div className="absolute top-0 w-full h-full rounded-2xl bg-black/70"></div>
+							<div className="absolute z-10 py-6 mx-auto text-2xl text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 font-lato w-max">
+							<h3 className="mb-6">{ categ.category }</h3>
+							<Link to={ `/books/${categ.id}`}><button className="btn btn-primary">Explore</button></Link>
+							</div>
 						</figure>
-						<h2 className="py-6 mx-auto text-2xl font-lato w-max">{ categ.category }</h2>
-					</Link>
+					</div>
 				</div>)
 				:
 				<div>No Categories Found</div>

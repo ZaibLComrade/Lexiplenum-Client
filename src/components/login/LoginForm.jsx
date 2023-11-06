@@ -33,7 +33,7 @@ export default function LoginForm() {
 			.then((userCredential) => {
 				const user = userCredential.user;
 				const update = {lastSignInTime: user?.metadata?.lastSignInTime};
-				axiosSecure.post(`/users/${user.email}`, update);
+				axiosSecure.put(`/users/${user.email}`, update);
 				
 				if(location.state === "/cart/null") {
 					setLoading(true);
@@ -61,36 +61,24 @@ export default function LoginForm() {
 				}
 			})
 			.catch((err) => {
-				console.error(err);
-				// axiosSecure.get(`/users/user-exists/${tempEmail}`)
-				// 	.then(res => {
-				// 		if(res.data === "user-not-found") {
-				// 			Swal.fire({
-				// 				title: "User doesn't exist",
-				// 				icon: "error",
-				// 				confirmButtonText: "Close",
-				// 			}).then(() => {
-				// 				setLoading(false);
-				// 			});
-				// 		} else if(err.code === "auth/invalid-login-credentials") {
-				// 			Swal.fire({
-				// 				title: "Incorrect Password",
-				// 				icon: "error",
-				// 				confirmButtonText: "Close",
-				// 			}).then(() => {
-				// 				setLoading(false);
-				// 			});
-				// 		} else if(err.code === "auth/too-many-requests") {
-				// 			Swal.fire({
-				// 				title: "Account has been temporarily disabled",
-				// 				text: "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
-				// 				icon: "error",
-				// 				confirmButtonText: "Close",
-				// 			}).then(() => {
-				// 				setLoading(false);
-				// 			});
-				// 		}
-				// 	})
+					if(err.code === "auth/invalid-login-credentials") {
+						Swal.fire({
+							title: "Invalid Credentials",
+							icon: "error",
+							confirmButtonText: "Close",
+						}).then(() => {
+							setLoading(false);
+						});
+					} else if(err.code === "auth/too-many-requests") {
+						Swal.fire({
+							title: "Account has been temporarily disabled",
+							text: "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
+							icon: "error",
+							confirmButtonText: "Close",
+						}).then(() => {
+							setLoading(false);
+						});
+					}
 			});
 	};
 	
@@ -99,6 +87,17 @@ export default function LoginForm() {
 		googleSignInUser()
 			.then((result) => {
 				const user = result.user;
+				console.log(user.metadata.lastSignInTime);
+				axiosSecure.put(`/users/${user.email}`, {
+					name: user.displayName,
+					image: user.photoURL,
+					email: user.email,
+					role: "user",
+					creationTime: user?.metadata?.creationTime,
+					lastSignInTime: user?.metadata?.lastSignInTime,
+					borrowed: [],
+				}).then(res => console.log(res.data));
+				
 				if(location.state === "/cart/null") {
 					axiosSecure.get(`/users/${user.email}`)
 						.then(res => {
@@ -123,7 +122,7 @@ export default function LoginForm() {
 				}
 			})
 			.catch(err => console.error(err));
-  }
+	}
 	
 	return (
 		<div>

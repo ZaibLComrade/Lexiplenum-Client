@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./shared/Navbar";
 import Headroom from "react-headroom";
 import LoadingScreen from "./LoadingScreen";
+import Footer from "./shared/Footer";
 
 export  default function Root() {
 	const [isDark, setIsDark] = useState(true)
@@ -15,5 +16,6 @@ export  default function Root() {
 			<Navbar setDark={ setIsDark }/>
 		</Headroom>
 		<Outlet/>
+		<Footer/>
 	</div>
 }

@@ -46,7 +46,7 @@ export default function Footer() {
 					</div>
 				</nav>
 				<aside>
-					<p>Copyright © 2023 - All right reserved by Nosh Nest</p>
+					<p>Copyright © 2023 - All right reserved by Lexiplenum</p>
 				</aside>
 			</footer>
 		</div>

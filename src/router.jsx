@@ -5,6 +5,7 @@ import LoginPage from "./components/login/LoginPage";
 import RegisterPage from "./components/register/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
 import AddBooks from "./components/books/AddBooks";
+import Home from "./components/home/Home";
 
 const router = createBrowserRouter([
 	{
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
 				element: <NotFound/>
 			}, {
 				path: "/",
-				element: <div>Home route under construction</div>
+				element: <Home/>
 			}, {
 				path: "/books/add",
 				element: <PrivateRoute><AddBooks/></PrivateRoute>

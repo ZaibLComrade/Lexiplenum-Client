@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useForm } from "react-hook-form";
+
 import Swal from "sweetalert2";
 
 const validatePassword = (password) => {
@@ -44,25 +46,18 @@ export default function RegisterForm() {
 	// Getting customized firebase functions from context
 	const { registerUser, logoutUser, loginUser, updateProfile, setLoading, setUser } = useAuth();
 	const navigate = useNavigate();
-	// Runs when form is submitted
-	const handleSubmit = (e) => {
-		e.preventDefault(); // Prevents reload when submitted
-
-		// Collecting form input data
-		const form = new FormData(e.currentTarget);
-		const name = form.get("name");
-		const image = form.get("url");
+	const { register, handleSubmit, formState: { errors } } = useForm();
+	
+	const onSubmit = newUser => {
+		const { name, email, password, image } = newUser;
+		
+		if(!validatePassword(password)) return;
+		console.log(newUser)
 		const userProfile = {
 			displayName: name,
 			photoURL: image,
 		};
-		const email = form.get("email");
-		const password = form.get("password");
-		if (!validatePassword(password)) {
-			return;
-		}
-
-		// Creating firebase user
+		
 		registerUser(email, password)
 			.then((userCredential) => {
 				updateProfile(userCredential.user, userProfile).then(() => {
@@ -71,12 +66,14 @@ export default function RegisterForm() {
 						name: user.displayName,
 						img: user.photoURL,
 						email: user.email,
+						role: "user",
 						creationTime: user?.metadata?.creationTime,
 						lastSignInTime: user?.metadata?.lastSignInTime,
-						cart: [],
+						borrowed: [],
 					}
 					setUser(userCredential.user);
 					axiosSecure.post(`/users`, userData)
+						.then(res => console.log(res.data));
 					
 					logoutUser();
 					loginUser(email, password)
@@ -100,12 +97,39 @@ export default function RegisterForm() {
 					});
 				setLoading(false);
 			});
-	};
+	}
+	
+	const onError = () => {
+		Swal.fire({
+			title: "Please fill all the required fields",
+			icon: "error",
+			confirmButtonText: "Ok",
+		})
+	}
+	
+	// Runs when form is submitted
+	const handleFormSubmit = (e) => {
+		e.preventDefault(); // Prevents reload when submitted
+		
+		// Collecting form input data
+		const form = new FormData(e.currentTarget);
+		const name = form.get("name");
+		const image = form.get("url");
 
+		const email = form.get("email");
+		const password = form.get("password");
+		if (!validatePassword(password)) {
+			return;
+		}
+		
+		// Creating firebase user
+		
+	};
+	
 	return (
 		<div>
 			<div className="flex-shrink-0 w-full max-w-sm pb-5 mx-auto shadow-2xl font-montserrat card bg-base-100">
-				<form className="card-body" onSubmit={handleSubmit}>
+				<form className="card-body" onSubmit={handleSubmit(onSubmit, onError)}>
 					<h1 className="mx-auto text-3xl font-semibold w-max font-playfair-display">
 						Register
 					</h1>
@@ -119,11 +143,10 @@ export default function RegisterForm() {
 							</span>
 						</label>
 						<input
+							{...register("name", {requried: true})}
 							type="text"
 							placeholder="name"
-							name="name"
 							className="input input-bordered"
-							required
 						/>
 					</div>
 					<div className="form-control">
@@ -131,9 +154,9 @@ export default function RegisterForm() {
 							<span className="label-text">Photo URL</span>
 						</label>
 						<input
-							type="text"
+							{...register("image")}
+							type="url"
 							placeholder="url"
-							name="url"
 							className="input input-bordered"
 						/>
 					</div>
@@ -147,11 +170,10 @@ export default function RegisterForm() {
 							</span>
 						</label>
 						<input
+							{...register("email", { required: true })}
 							type="email"
 							placeholder="email"
-							name="email"
 							className="input input-bordered"
-							required
 						/>
 					</div>
 					<div className="form-control">
@@ -164,11 +186,10 @@ export default function RegisterForm() {
 							</span>
 						</label>
 						<input
+							{...register("password", { required: true })}
 							type="password"
 							placeholder="password"
-							name="password"
 							className="input input-bordered"
-							required
 						/>
 					</div>
 					<div className="mt-6 form-control">

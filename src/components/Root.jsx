@@ -6,7 +6,7 @@ import Headroom from "react-headroom";
 import LoadingScreen from "./LoadingScreen";
 
 export  default function Root() {
-	const [isDark, setIsDark] = useState(false)
+	const [isDark, setIsDark] = useState(true)
 	const { loading } = useAuth();
 	if(loading) return <LoadingScreen/>
 	

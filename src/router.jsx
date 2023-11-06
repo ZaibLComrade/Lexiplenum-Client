@@ -3,6 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import LoginPage from "./components/login/LoginPage";
 import RegisterPage from "./components/register/RegisterPage";
+import PrivateRoute from "./components/PrivateRoute";
+import AddBooks from "./components/books/AddBooks";
 
 const router = createBrowserRouter([
 	{
@@ -13,17 +15,17 @@ const router = createBrowserRouter([
 				path: "/*",
 				element: <NotFound/>
 			}, {
-				path: "/home",
+				path: "/",
 				element: <div>Home route under construction</div>
 			}, {
 				path: "/books/add",
-				element: <div>Add book route under construction</div>
+				element: <PrivateRoute><AddBooks/></PrivateRoute>
 			}, {
 				path: "/books/all",
-				element: <div>All books route under construction</div>
+				element: <PrivateRoute><div>All books route under construction</div></PrivateRoute>
 			}, {
 				path: "/books/borrowed",
-				element: <div>Borrowed books element under construction</div>
+				element: <PrivateRoute><div>Borrowed books element under construction</div></PrivateRoute>
 			}, {
 				path: "/login",
 				element: <LoginPage/>

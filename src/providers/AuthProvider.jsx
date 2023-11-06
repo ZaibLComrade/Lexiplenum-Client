@@ -22,7 +22,6 @@ export default function AuthProvider({ children }) {
 			setUser(currentUser);
 			setLoading(false);
 		})
-		setLoading(false);
 		return () => unsubscribe();
 	}, [])
 	

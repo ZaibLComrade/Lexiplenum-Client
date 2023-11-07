@@ -19,6 +19,7 @@
     "firebase": "^10.5.2",
     "postcss": "^8.4.31",
     "react": "^18.2.0",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-headroom": "^3.2.1",
     "react-hook-form": "^7.48.2",

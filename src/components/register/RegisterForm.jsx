@@ -52,7 +52,6 @@ export default function RegisterForm() {
 		const { name, email, password, image } = newUser;
 		
 		if(!validatePassword(password)) return;
-		console.log(newUser)
 		const userProfile = {
 			displayName: name,
 			photoURL: image,

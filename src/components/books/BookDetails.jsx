@@ -3,16 +3,27 @@ import {useLoaderData, useParams} from "react-router-dom"
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import {useEffect, useState} from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function BookDetails() {
 	const axiosSecure = useAxiosSecure();
 	const book = useLoaderData()
 	const id = useParams().id
-	const { image, title, author, quantity, category_name, rating, description } = book;
+	const { image, title, author, quantity: quan, category_name, rating, description } = book;
+	const [ quantity, setQuantity ] = useState(quan);
 	const { user } = useAuth();
+	const { register, handleSubmit, formState: {errors} } = useForm();
+	const currentDate = new Date().toISOString().split('T')[0];
 	
-	const handleBorrow = e => {
-		e.preventDefault();
+	// const defaultDate = new Date();
+	// const defaultDateValue = `${defaultDate.getFullYear()}-${(defaultDate.getMonth() + 1)
+	// .toString()
+	// .padStart(2, '0')}-${defaultDate.getDate().toString().padStart(2, '0')}`;
+	
+	const onSubmit = data => {
+		document.getElementById('my_modal_5').close()
 		if(quantity <= 0) Swal.fire({
 			title: "Not available",
 			icon: "warning",
@@ -20,7 +31,7 @@ export default function BookDetails() {
 		});
 		
 		const email = user.email;
-		axiosSecure.patch(`/users/borrow?id=${id}&email=${email}`)
+		axiosSecure.patch(`/users/borrow?id=${id}&email=${email}`, data)
 			.then(result => {
 				const { modifiedCount, matchedCount } = result.data;
 				if(modifiedCount === 0 && matchedCount === 1) {
@@ -35,9 +46,12 @@ export default function BookDetails() {
 						title: "Book borrowed successfully",
 						confirmButtonText: "Close",
 						icon: "success",
-					})
+					}).then(() => setQuantity(quantity -1))
 				}
 			})
+	}
+	const onError = err => {
+		console.log(err)
 	}
 	
 	return <div className="container space-y-12 mx-auto py-[70px]">
@@ -56,7 +70,6 @@ export default function BookDetails() {
 						<div className="text-center md:text-left">
 							<p><span>Author:</span> <span>{ author }</span></p>
 							<p><span>Category:</span> <span>{ category_name }</span></p>
-
 							<div className="text-center md:text-left max-sm:mx-auto w-max space-y-3">
 								<p>Rating: <span>{ rating }</span></p>
 								<div className="relative right-2 rating rating-lg rating-half">
@@ -69,41 +82,94 @@ export default function BookDetails() {
 						<div className="flex items-center justify-center gap-4">
 							<p>Quantity: <span>{ quantity }</span></p>
 						</div>
-						{/* <div className="text-3xl"> */}
-						{/* 	<p><span>Price:</span> <span>{ price } $</span></p> */}
-						{/* </div> */}
-						{/* <div> */}
-						{/* 	<p className="text-2xl"> */}
-						{/* 		<span>Total: </span> */}
-						{/* 		<span>{ (quantity * price).toFixed(2) } $</span> */}
-						{/* 	</p> */}
-						{/* </div> */}
 						<div>
-							<button onClick={ handleBorrow } className="btn btn-primary">Borrow</button>
+							<button className="btn btn-primary" onClick={()=>document.getElementById('my_modal_5').showModal()}>Borrow</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		{/* <div className="items-start grid grid-cols-2 gap-8"> */}
-		{/* 	<div className="space-y-4"> */}
-		{/* 		<h2 className="mx-auto text-3xl w-max">Ingredients</h2> */}
-		{/* 		<p className="mx-auto text-center"> */}
-		{/* 			<span>{ ingredients[0] }</span> */}
-		{/* 		</p> */}
-		{/* 	</div> */}
-		{/* 	<div className="shrink-0"> */}
-		{/* 		<div className="mx-auto space-y-4 max-w-[400px]"> */}
-		{/* 			<h2 className="mx-auto text-3xl w-max">Nutrition Facts</h2> */}
-		{/* 			<ol className="mx-auto list-disc grid grid-cols-1 md:grid-cols-2"> */}
-		{/* 				{ */}
-		{/* 					nutrition_facts.map((elem, idx) => <li key={ idx }> */}
-		{/* 						{ elem } */}
-		{/* 					</li>) */}
-		{/* 				} */}
-		{/* 			</ol> */}
-		{/* 		</div> */}
-		{/* 	</div> */}
-		{/* </div> */}
+		
+		{/* Open the modal using document.getElementById('ID').showModal() method */}
+		<div>
+			<dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+				<div className="modal-box">
+					<h3 className="mx-auto text-lg font-bold w-max">Borrow {title}</h3>
+					<div className="modal-action">
+						<form method="dialog" onSubmit={ handleSubmit(onSubmit, onError) } className="mx-auto md:grid grid-cols-2 gap-5">
+							<button type="button" onClick={ () => document.getElementById('my_modal_5').close() } className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
+							
+							{/* Username */}
+							<div className="form-control">
+								<label className="label">
+									<span className="label-text">
+										Name
+									</span>
+								</label>
+								<input
+									type="text"
+									placeholder="Name"
+									className="input input-bordered"
+									defaultValue={ user.displayName }
+									readOnly
+								/>
+							</div>
+							
+							{/* Email */}
+							<div className="form-control">
+								<label className="label">
+									<span className="label-text">
+										Email
+									</span>
+								</label>
+								<input
+									type="email"
+									placeholder="Email"
+									className="input input-bordered"
+									defaultValue={ user.email }
+									readOnly
+								/>
+							</div>
+							
+							{/* Current Date */}
+							<div className="form-control">
+								<label className="label">
+									<span className="label-text">
+										Borrowed Date
+									</span>
+								</label>
+								<input 
+									{ ...register("borrowed", { value: currentDate }) }
+									type="date"
+									placeholder="Borrowed in"
+									className="input input-bordered"
+									value={ currentDate }
+									readOnly
+								/>
+							</div>
+							
+							{/* Return Date */}
+							<div className="form-control">
+								<label className="label">
+									<span className="label-text">
+										Return date
+									</span>
+								</label>
+								<input 
+									{ ...register("return") }
+									type="date"
+									placeholder="Return date"
+									className="input input-bordered"
+									required
+								/>
+							</div>
+							<div className="mx-auto mt-6 w-max col-span-2">
+								<input type="submit" value="Borrow" className="btn btn-primary"/>
+							</div>
+						</form>
+					</div>
+				</div>
+			</dialog>
+		</div>
 	</div>
 }

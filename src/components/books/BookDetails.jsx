@@ -83,7 +83,7 @@ export default function BookDetails() {
 							<p>Quantity: <span>{ quantity }</span></p>
 						</div>
 						<div>
-							<button className="btn btn-primary" onClick={()=>document.getElementById('my_modal_5').showModal()}>Borrow</button>
+							<button className="btn btn-primary" disabled={ (quantity > 0) ? false : true } onClick={()=>document.getElementById('my_modal_5').showModal()}>Borrow</button>
 						</div>
 					</div>
 				</div>

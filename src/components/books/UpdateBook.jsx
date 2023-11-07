@@ -2,11 +2,12 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import {useEffect, useState} from "react";
-import {useLoaderData} from "react-router-dom";
+import {useLoaderData, useParams} from "react-router-dom";
 
 export default function UpdateBook() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
+	const params = useParams();
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	const { image, title, author, category, rating, quantity, description } = useLoaderData();
 	
@@ -16,6 +17,7 @@ export default function UpdateBook() {
 	}, [axiosSecure])
 	
 	const onSubmit = newBook => {
+		console.log(newBook)
 		Swal.fire({
 			title: "Changes can't be reverted",
 			text: "Are you sure you want to save changes?",
@@ -25,12 +27,12 @@ export default function UpdateBook() {
 			confirmButtonText: "Proceed",
 		}).then(res => {
 			if(res.isConfirmed) {
-				axiosSecure.post("/books", newBook)
+				axiosSecure.put(`/book/${params.id}`, newBook)
 					.then(res => {
 						if(res.data.acknowledged) {
 							Swal.fire({
 								title: 'Added!',
-								text: 'Item has been updated successfully',
+								text: 'Book has been updated successfully',
 								icon: 'success',
 								confirmButtonText: 'Cool'
 							})

@@ -9,7 +9,7 @@ export default function useUserData() {
 	
 	const email = user.email;
 	useEffect(() => {
-		axiosSecure(`/users?email=${email}`)
+		axiosSecure.get(`/users?email=${email}`)
 			.then(res => setUserData(res.data));
 	}, [axiosSecure, email])
 	

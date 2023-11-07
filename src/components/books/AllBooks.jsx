@@ -41,9 +41,9 @@ export default function AllBooks() {
 									<Link to={`/books/details/${book._id}`}>
 										<button className="btn btn-primary">Details</button>
 									</Link>
-								{/* 	<Link to={ `/products/update/${books._id}` }> */}
-								{/* 		<button className="btn btn-primary">Update</button> */}
-								{/* 	</Link> */}
+									<Link to={`/books/update/${book._id}` }>
+										<button className="btn btn-primary">Update</button>
+									</Link>
 								</div>
 							</div>
 					</div>) :

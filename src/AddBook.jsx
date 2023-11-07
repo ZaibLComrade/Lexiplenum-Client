@@ -3,13 +3,13 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import {useEffect, useState} from "react";
 
-export default function AddProduct() {
+export default function AddBooks() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	
 	useEffect(() => {
-		axiosSecure.get("/books/categories")
+		axiosSecure.get("/categories")
 			.then(res => setCategories(res.data));
 	}, [axiosSecure])
 	

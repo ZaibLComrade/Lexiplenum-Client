@@ -4,12 +4,13 @@ import NotFound from "./components/NotFound";
 import LoginPage from "./components/login/LoginPage";
 import RegisterPage from "./components/register/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
-import AddBooks from "./components/books/AddBooks";
+import AddBook from "./components/books/AddBook";
 import Home from "./components/home/Home";
 import AllBooks from "./components/books/AllBooks";
 import BorrowedBooks from "./components/books/BorrowedBooks";
 import url from "./url";
 import BookDetails from "./components/books/BookDetails";
+import UpdateBook from "./components/books/UpdateBook";
 
 const router = createBrowserRouter([
 	{
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
 				element: <Home/>
 			}, {
 				path: "/books/add",
-				element: <PrivateRoute><AddBooks/></PrivateRoute>
+				element: <PrivateRoute><AddBook/></PrivateRoute>
 			}, {
 				path: "/books/all",
 				element: <PrivateRoute><AllBooks/></PrivateRoute>,
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 			}, {
 				path: "/books/borrowed",
 				element: <PrivateRoute><BorrowedBooks/></PrivateRoute>
+			}, {
+				path: "/books/update/:id",
+				element: <PrivateRoute><UpdateBook/></PrivateRoute>,
+				loader: ({ params }) => fetch(`${url}/book/${params.id}`)
 			}, {
 				path: "/books/details/:id",
 				element: <PrivateRoute><BookDetails/></PrivateRoute>,

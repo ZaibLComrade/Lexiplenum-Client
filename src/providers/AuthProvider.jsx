@@ -10,12 +10,14 @@ import {
 	signInWithPopup,
 	updateProfile,
 } from "firebase/auth"
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const axiosSecure = useAxiosSecure();
 	
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, currentUser => {

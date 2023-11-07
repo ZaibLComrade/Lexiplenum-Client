@@ -3,13 +3,15 @@ import {useLoaderData} from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useUserData from "../../hooks/useUserData";
+import useAuth from "../../hooks/useAuth";
 
 export default function BorrowedBooks() {
 	const [borrowed, setBorrowed] = useState(useLoaderData());
+	const { user } = useAuth()
 	const userData = useUserData();
 	const axiosSecure = useAxiosSecure();
 	
-	const email = userData.email;
+	const email = user.email;
 	useEffect(() => {
 		if(email) {
 			axiosSecure.get(`/books/borrowed?email=${email}`)

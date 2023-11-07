@@ -21,11 +21,18 @@ export default function AuthProvider({ children }) {
 	
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, currentUser => {
+			const userEmail = currentUser?.email || user?.email;
+			const userCredential = { email: userEmail }
 			setUser(currentUser);
 			setLoading(false);
+			if(currentUser) {
+				axiosSecure.post(`/jwt?method=login`, userCredential)
+			} else {
+				axiosSecure.post(`/jwt?method=logout`, userCredential)
+			}
 		})
 		return () => unsubscribe();
-	}, [])
+	}, [axiosSecure, user?.email])
 	
 	const registerUser = (email, password) => {
 		setLoading(false);

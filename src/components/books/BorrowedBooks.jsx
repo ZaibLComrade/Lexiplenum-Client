@@ -8,8 +8,8 @@ import useAuth from "../../hooks/useAuth";
 export default function BorrowedBooks() {
 	const [borrowed, setBorrowed] = useState(useLoaderData());
 	const { user } = useAuth()
-	const userData = useUserData();
 	const axiosSecure = useAxiosSecure();
+	console.log(borrowed);
 	
 	const email = user.email;
 	useEffect(() => {
@@ -19,23 +19,20 @@ export default function BorrowedBooks() {
 		}
 	}, [axiosSecure, email])
 	
-	const handleDelete = idx => {
-		// fetch(`${server}/cart/${userId.id}`, {
-		// 	method: "PATCH",
-		// 	headers: {
-		// 		"content-type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({ idx }),
-		// }).then(response => response.json())
-		// 	.then(result => {
-		// 		setCart(result);
-		// 		setSubtotal(result.reduce((acc, curr) => acc + curr.total , 0))
-		// 		Swal.fire({
-		// 			title: "Deleted item from cart",
-		// 			icon: "success",
-		// 			confirmButtonText: "Close",
-		// 		})
-		// 	});
+	const handleReturn = id => {
+		axiosSecure.delete(`/users/return?email=${email}&book_id=${id}`, )
+			.then(result => {
+				if(result.data.acknowledged) {
+					Swal.fire({
+						title: "Successfully returned book",
+						icon: "success",
+						confirmButtonText: "Close",
+					}).then(() => {
+						axiosSecure.get(`/books/borrowed?email=${email}`)
+							.then(res => setBorrowed(res.data))
+					})
+				}
+			});
 	}
 	
 	return <div className="container mx-auto min-h-[100vh] lg:flex max-lg:space-y-8 px-4 flex-row-reverse gap-4 py-[70px]">
@@ -69,7 +66,7 @@ export default function BorrowedBooks() {
 						<div className="items-center text-center col-span-2 md:flex justify between lg:text-left ">
 							
 							<div className="md:w-[250px] max-md:mx-auto shrink-0 h-[250px] p-4 rounded-lg">
-								<img src={ book.image } className="object-contain w-full h-full rounded-lg md:object-cover"/>
+								<img src={ book.image } className="object-contain w-full h-full rounded-lg"/>
 							</div>
 							<div className="flex flex-col justify-between p-4 lg:h-full gap-6">
 								<div>
@@ -78,6 +75,12 @@ export default function BorrowedBooks() {
 									<p><span>Category:</span> <span>{ book.category_name }</span></p>
 								</div>
 							</div>
+						</div>
+					</div>
+					<div className="flex items-center justify-center h-full text-lg">
+						<div className="text-center">
+							{/* <button onClick={ () => handleDelete(idx) } className="mt-4 btn">Delete</button> */}
+							<button onClick={() => handleReturn(book._id)} className="mt-4 btn">Return</button>
 						</div>
 					</div>
 				</div>)

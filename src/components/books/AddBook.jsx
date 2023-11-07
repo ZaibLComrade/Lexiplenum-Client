@@ -2,11 +2,13 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import {useEffect, useState} from "react";
+import useAuth from "../../hooks/useAuth";
 
 export default function AddBook() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
 	const { register, handleSubmit, formState: { errors } } = useForm();
+	const { user } = useAuth()
 	
 	useEffect(() => {
 		axiosSecure.get("/categories")
@@ -14,7 +16,7 @@ export default function AddBook() {
 	}, [axiosSecure])
 	
 	const onSubmit = newBook => {
-		axiosSecure.post("/books", newBook)
+		axiosSecure.post(`/books?email=${user.email}`, newBook)
 			.then(res => {
 				if(res.data.acknowledged) {
 					Swal.fire({
@@ -22,6 +24,15 @@ export default function AddBook() {
 						text: 'Item has been added successfully',
 						icon: 'success',
 						confirmButtonText: 'Cool'
+					})
+				}
+			})
+			.catch(err => {
+					if(err.response.status === 401) {
+					Swal.fire({
+						title: err.response.statusText,
+						icon: "error",
+						cancelButtonText: "Close"
 					})
 				}
 			})

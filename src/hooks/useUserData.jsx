@@ -7,6 +7,7 @@ export default function useUserData() {
 	const { user } = useAuth();
 	const [userData, setUserData] = useState({});
 	
+	console.log(user);
 	const email = user.email;
 	useEffect(() => {
 		axiosSecure.get(`/users?email=${email}`)

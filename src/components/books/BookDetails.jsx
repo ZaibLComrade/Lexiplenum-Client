@@ -21,6 +21,24 @@ export default function BookDetails() {
 	// const defaultDateValue = `${defaultDate.getFullYear()}-${(defaultDate.getMonth() + 1)
 	// .toString()
 	// .padStart(2, '0')}-${defaultDate.getDate().toString().padStart(2, '0')}`;
+	const [borrowedBooks, setBorrowedBooks] = useState([]);
+	useEffect(() => {
+		axiosSecure.get(`/books/borrowed?email=${user.email}`)
+			.then(res => setBorrowedBooks(res.data))
+	}, [axiosSecure, user.email])
+	
+	const handleBorrowed = () => {
+		const alreadyBorrowed = borrowedBooks.find(book => id === book._id);
+		if(alreadyBorrowed) {
+			Swal.fire({
+				title: "Book already borrowed",
+				confirmButtonText: "Ok",
+				icon: "error",
+			})
+			return;
+		}
+		document.getElementById('my_modal_5').showModal()
+	}
 	
 	const onSubmit = data => {
 		document.getElementById('my_modal_5').close()
@@ -57,7 +75,7 @@ export default function BookDetails() {
 	return <div className="container space-y-12 mx-auto py-[70px]">
 		<div className="md:flex gap-6">
 			<div className="h-[500px] mx-auto shrink-0 rounded-lg max-w-[400px]">
-				<img className="object-cover w-full h-full rounded-lg" src={ image }/>
+				<img className="object-contain w-full h-full rounded-lg" src={ image }/>
 			</div>
 			<div className="p-4 grow space-y-12">
 				<div className="text-center space-y-4">
@@ -73,7 +91,7 @@ export default function BookDetails() {
 							<div className="text-center md:text-left max-sm:mx-auto w-max space-y-3">
 								<p>Rating: <span>{ rating }</span></p>
 								<div className="relative right-2 rating rating-lg rating-half">
-									<Rating name="rating" defaultValue={rating} precision={0.5} size="large" readOnly/>
+									<Rating name="rating" defaultValue={parseFloat(rating)} precision={0.5} size="large" readOnly/>
 								</div>
 							</div>
 						</div>
@@ -83,7 +101,11 @@ export default function BookDetails() {
 							<p>Quantity: <span>{ quantity }</span></p>
 						</div>
 						<div>
-							<button className="btn btn-primary" disabled={ (quantity > 0) ? false : true } onClick={()=>document.getElementById('my_modal_5').showModal()}>Borrow</button>
+							<button 
+								className="btn btn-primary" 
+								disabled={ (quantity > 0) ? false : true } 
+								onClick={handleBorrowed}
+							>Borrow</button>
 						</div>
 					</div>
 				</div>

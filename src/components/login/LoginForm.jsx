@@ -87,7 +87,6 @@ export default function LoginForm() {
 		googleSignInUser()
 			.then((result) => {
 				const user = result.user;
-				console.log(user.metadata.lastSignInTime);
 				axiosSecure.put(`/users/${user.email}`, {
 					name: user.displayName,
 					image: user.photoURL,
@@ -96,7 +95,7 @@ export default function LoginForm() {
 					creationTime: user?.metadata?.creationTime,
 					lastSignInTime: user?.metadata?.lastSignInTime,
 					borrowed: [],
-				}).then(res => console.log(res.data));
+				});
 				
 				if(location.state === "/cart/null") {
 					axiosSecure.get(`/users/${user.email}`)

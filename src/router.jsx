@@ -29,7 +29,6 @@ const router = createBrowserRouter([
 			}, {
 				path: "/books/all",
 				element: <PrivateRoute><AllBooks/></PrivateRoute>,
-				loader: () => fetch(`${url}/books`)
 			}, {
 				path: "/books/borrowed",
 				element: <PrivateRoute><BorrowedBooks/></PrivateRoute>

@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {useEffect, useState} from "react";
 import {useLoaderData, useParams} from "react-router-dom";
 
@@ -8,16 +8,27 @@ export default function UpdateBook() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
 	const params = useParams();
-	const { register, handleSubmit, formState: { errors } } = useForm();
+	const { control, watch, register, handleSubmit, formState: { errors } } = useForm();
 	const { image, title, author, category, rating, quantity, description } = useLoaderData();
+	const [defRating, setDefRating] = useState(rating);
 	
 	useEffect(() => {
 		axiosSecure.get("/categories")
 			.then(res => setCategories(res.data));
 	}, [axiosSecure])
 	
-	const onSubmit = newBook => {
-		console.log(newBook)
+	const onSubmit = data => {
+		const { image, title, author, category, rating, quantity, description } = data;
+		console.log(data);
+		const newBook = { 
+			image,
+			title,
+			author,
+			category: parseInt(category),
+			quantity: parseInt(quantity),
+			rating: parseFloat(rating),
+			description,
+		}
 		Swal.fire({
 			title: "Changes can't be reverted",
 			text: "Are you sure you want to save changes?",
@@ -27,8 +38,9 @@ export default function UpdateBook() {
 			confirmButtonText: "Proceed",
 		}).then(res => {
 			if(res.isConfirmed) {
-				axiosSecure.put(`/book/${params.id}`, newBook)
+				axiosSecure.patch(`/book/${params.id}`, newBook)
 					.then(res => {
+						console.log(res.data);
 						if(res.data.acknowledged) {
 							Swal.fire({
 								title: 'Added!',
@@ -83,19 +95,26 @@ export default function UpdateBook() {
 					<label className="label">
 						<span className="label-text">Rating</span>
 					</label>
-					<select {...register("rating")} className="input-bordered input">
-						<option value="0" selected={ (rating === 0) ? true : false }>0</option>
-						<option value="0.5" selected={ (rating === 0.5) ? true : false }>0.5</option>
-						<option value="1.0" selected={ (rating === 1.0) ? true : false }>1.0</option>
-						<option value="1.5" selected={ (rating === 1.5) ? true : false }>1.5</option>
-						<option value="2.0" selected={ (rating === 2.0) ? true : false }>2.0</option>
-						<option value="2.5" selected={ (rating === 2.5) ? true : false }>2.5</option>
-						<option value="3.0" selected={ (rating === 3.0) ? true : false }>3.0</option>
-						<option value="3.5" selected={ (rating === 3.5) ? true : false }>3.5</option>
-						<option value="4.0" selected={ (rating === 4.0) ? true : false }>4.0</option>
-						<option value="4.5" selected={ (rating === 4.5) ? true : false }>4.5</option>
-						<option value="5.0" selected={ (rating === 5.0) ? true : false }>5.0</option>
-					</select>
+					<Controller
+						name="rating" 
+						control={control}
+						defaultValue={ `${defRating}` } 
+						render={({ field }) => (
+						<select {...field} className="input input-bordered">
+							<option value="0">0</option>
+							<option value="0.5">0.5</option>
+							<option value="1.0">1.0</option>
+							<option value="1.5">1.5</option>
+							<option value="2.0">2.0</option>
+							<option value="2.5">2.5</option>
+							<option value="3.0">3.0</option>
+							<option value="3.5">3.5</option>
+							<option value="4.0">4.0</option>
+							<option value="4.5">4.5</option>
+							<option value="5.0">5.0</option>
+						</select>
+						)}
+					/>
 				</div>
 				
 				<div className="col-span-1 space-y-4 md:col-span-2">
@@ -104,15 +123,21 @@ export default function UpdateBook() {
 						<label className="label">
 							<span className="label-text" required>Category</span>
 						</label>
-						<select {...register("category")} className="input-bordered input">
+						<Controller
+							name="cateogry" 
+							control={control}
+							defaultValue={ category } 
+							render={({ field }) => (
+							<select {...field} className="input input-bordered">
 							{
 								categories.map(categ => <option key={categ._id} 
-									selected={ (categ.id === category) ? true : false } 
 									value={ categ.id }>
 										{categ.category}
 								</option>)
 							}
-						</select>
+							</select>
+							)}
+						/>
 					</div>
 					
 					{/* Short Description */}

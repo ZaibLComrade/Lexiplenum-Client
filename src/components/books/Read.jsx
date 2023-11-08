@@ -24,7 +24,7 @@ export default function Read() {
 					<img src={ content.image } className="object-contain w-full h-full"/>
 				</div>
 				<div className="py-[50px] overflow-y-scroll">
-					{/* <button onClick={() => toPDF()}>Download PDF</button> */}
+					<button className="btn btn-primary" onClick={() => toPDF()}>Download PDF</button>
 					<h1 className="m-auto text-3xl w-max">{ content.title }</h1>
 					<div ref={targetRef} className="p-8">
 						<pre style={ { whiteSpace: "pre-wrap"} }>{ `${content.content}` }</pre>

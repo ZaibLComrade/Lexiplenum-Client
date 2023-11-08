@@ -34,8 +34,8 @@ export default function Navbar({ setDark }) {
 	const { user, logoutUser } = useAuth();
 	
 	const handleToggle = e => {
-		if(e.target.checked) setDark(true);
-		else setDark(false);
+		if(e.target.checked) setDark(false);
+		else setDark(true);
 	}
 	
 	return (
@@ -83,7 +83,7 @@ export default function Navbar({ setDark }) {
 				</ul>
 			</div>
 			<div className="navbar-end font-montserrat md:mr-4">
-				<div className="items-center hidden md:flex gap-2">
+				<div className="items-center hidden mr-6 md:flex gap-2">
 					<div className="bg-white border rounded-full">
 						<img src={ DarkImg } className="w-6 h-6"/>
 					</div>

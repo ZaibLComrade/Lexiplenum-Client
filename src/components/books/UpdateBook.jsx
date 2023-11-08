@@ -15,7 +15,7 @@ export default function UpdateBook() {
 	useEffect(() => {
 		axiosSecure.get("/categories")
 			.then(res => setCategories(res.data));
-	}, [axiosSecure])
+	}, [])
 	
 	const onSubmit = data => {
 		const { image, title, author, category, rating, quantity, description } = data;

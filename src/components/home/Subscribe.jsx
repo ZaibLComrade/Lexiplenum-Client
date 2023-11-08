@@ -1,10 +1,13 @@
+import bgImg from "../../assets/newletter.jpg";
+
 export default function Subscribe() {
 	return <div>
 		<div className="relative flex flex-col items-center justify-center min-h-screen p-8 overflow-hidden sm:p-12">
 			<div className="absolute w-full h-full">
-				<img className="object-cover w-full h-full" src="https://i.postimg.cc/bNnQLpmq/newsletter-min.jpg"/>
+				<div className="absolute top-0 w-full h-full bg-black/60"></div>
+				<img className="object-cover w-full h-full" src={ bgImg }/>
 			</div>
-			<h1 className="absolute z-10 text-5xl text-black lg:text-7xl top-20 font-playfair">Subscribe</h1>
+			<h1 className="absolute z-10 text-5xl lg:text-7xl top-20 font-playfair">Subscribe</h1>
 			<div className="z-10 w-full max-w-4xl border-2 border-black bg-black/60 rounded-md p-14">
 				<div className="flex flex-col items-center">
 					<span className="px-2 py-px font-bold text-yellow-800 bg-yellow-100 rounded-lg -rotate-1 font-dancing">More than 1600 subscribers join us daily</span>

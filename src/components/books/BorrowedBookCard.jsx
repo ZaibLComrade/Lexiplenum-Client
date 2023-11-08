@@ -33,13 +33,12 @@ export default function BorrowedBookCard({ book, handleReturn }) {
 									<p><span>Borrowed Date:</span> <span>{ dates.borrowed }</span></p>
 									<p><span>Return Date:</span> <span>{ dates.return }</span></p>
 								</div>
-							</div>
-						</div>
-					</div>
 					<div className="flex items-center justify-center h-full text-lg">
 						<div className="text-center">
-							{/* <button onClick={ () => handleDelete(idx) } className="mt-4 btn">Delete</button> */}
 							<button onClick={() => handleReturn(book._id)} className="mt-4 btn">Return</button>
+						</div>
+					</div>
+							</div>
 						</div>
 					</div>
 				</div>

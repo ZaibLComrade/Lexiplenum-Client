@@ -6,6 +6,7 @@ import RegisterPage from "./components/register/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
 import AddBook from "./components/books/AddBook";
 import Home from "./components/home/Home";
+import CategoryBooks from "./components/books/CategoryBooks";
 import AllBooks from "./components/books/AllBooks";
 import BorrowedBooks from "./components/books/BorrowedBooks";
 import url from "./url";
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
 				element: <RegisterPage/>
 			}, {
 				path: "/books/:category",
-				element: <AllBooks/>,
+				element: <CategoryBooks/>,
 				loader: ({ params }) => fetch(`${url}/books/${params.category}`)
 			}
 		]

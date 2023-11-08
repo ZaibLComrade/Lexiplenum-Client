@@ -1,14 +1,17 @@
 import { Rating } from "@mui/material";
 import {useEffect, useState} from "react";
-import { useLocation, Link} from "react-router-dom";
+import {useLoaderData, useLocation, Link} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LoadingScreen from "../LoadingScreen";
 
-export default function AllBooks() {
+export default function CategoryBooks() {
 	const axiosSecure = useAxiosSecure();
-	const [books, setBooks] = useState([]);
-	const [toggleFilter, setToggleFilter] = useState(false);
+	const books = useLoaderData();
+	const [category, setCategory] = useState("")
+	const location = useLocation();
+	const locationArr = location.pathname.split('/');
+	const id = locationArr[locationArr.length - 1];
 	const [loading, setLoading] = useState(true);
 	const { user } = useAuth();
 	
@@ -32,12 +35,12 @@ export default function AllBooks() {
 	</div>
 	
 	useEffect(() => {
-		axiosSecure.get(`/books?email=${user.email}&filter=${toggleFilter}`)
+		axiosSecure.get(`/categories/${id}`)
 			.then(res => {
-				setBooks(res.data);
+				setCategory(res.data)
 				setLoading(false);
-			});
-	}, [axiosSecure, user.email, toggleFilter])
+			})
+	}, [axiosSecure, id, user.email])
 	
 	if(loading) return <div className="py-[50px]">
 		<h1 className="mx-auto text-5xl font-playfair w-max">All Books</h1> 
@@ -48,11 +51,9 @@ export default function AllBooks() {
 			{ skeleton }
 		</div>
 	</div>
-	return <div className="space-y-16 py-[50px]">
-
+	return <div className="space-y-16">
 		<div className="space-y-6">
-			<h1 className="mx-auto text-5xl font-playfair w-max">All Books</h1> 
-			<button className="block mx-auto btn btn-primary" onClick={ () => setToggleFilter(!toggleFilter) }>Filter</button>
+			<h1 className="mx-auto text-5xl font-playfair w-max">{ category } Books</h1>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 				{
 					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-neutral/70">
@@ -70,9 +71,6 @@ export default function AllBooks() {
 								<div className="flex normal-case font-montserrat justify-evenly">
 									<Link to={`/books/details/${book._id}`}>
 										<button className="btn btn-primary">Details</button>
-									</Link>
-									<Link to={`/books/update/${book._id}`}>
-										<button className="btn btn-primary">Update</button>
 									</Link>
 								</div>
 							</div>

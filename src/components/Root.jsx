@@ -15,7 +15,9 @@ export  default function Root() {
 		<Headroom>
 			<Navbar setDark={ setIsDark }/>
 		</Headroom>
-		<Outlet/>
+		<div className="min-h-[65vh]">
+			<Outlet/>
+		</div>
 		<Footer/>
 	</div>
 }

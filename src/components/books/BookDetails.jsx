@@ -1,5 +1,5 @@
 import { Rating } from "@mui/material";
-import {useLoaderData, useParams} from "react-router-dom"
+import {Link, useLoaderData, useParams} from "react-router-dom"
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -26,6 +26,10 @@ export default function BookDetails() {
 		axiosSecure.get(`/books/borrowed?email=${user.email}`)
 			.then(res => setBorrowedBooks(res.data))
 	}, [axiosSecure, user.email])
+	
+	const handleRead = () => {
+
+	}
 	
 	const handleBorrowed = () => {
 		const alreadyBorrowed = borrowedBooks.find(book => id === book._id);
@@ -100,12 +104,18 @@ export default function BookDetails() {
 						<div className="flex items-center justify-center gap-4">
 							<p>Quantity: <span>{ quantity }</span></p>
 						</div>
-						<div>
+						<div className="flex mx-auto gap-6 w-max">
 							<button 
 								className="btn btn-primary" 
 								disabled={ (quantity > 0) ? false : true } 
 								onClick={handleBorrowed}
 							>Borrow</button>
+							<Link to={`/books/read/${id}`}>
+								<button 
+									className="btn btn-primary" 
+									onClick={handleRead}
+								>Read</button>
+							</Link>
 						</div>
 					</div>
 				</div>

@@ -11,6 +11,7 @@ import BorrowedBooks from "./components/books/BorrowedBooks";
 import url from "./url";
 import BookDetails from "./components/books/BookDetails";
 import UpdateBook from "./components/books/UpdateBook";
+import Read from "./components/books/Read";
 
 const router = createBrowserRouter([
 	{
@@ -40,6 +41,9 @@ const router = createBrowserRouter([
 				path: "/books/details/:id",
 				element: <PrivateRoute><BookDetails/></PrivateRoute>,
 				loader: ({ params }) => fetch(`${url}/book/${params.id}`)
+			}, {
+				path: "/books/read/:id",
+				element: <Read/>
 			}, {
 				path: "/login",
 				element: <LoginPage/>

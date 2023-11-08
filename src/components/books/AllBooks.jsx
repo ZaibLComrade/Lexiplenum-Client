@@ -11,16 +11,17 @@ export default function AllBooks() {
 	const location = useLocation();
 	const locationArr = location.pathname.split('/');
 	const id = locationArr[locationArr.length - 1];
+	const [toggleFilter, setToggleFilter] = useState(false);
 	const { user } = useAuth();
 	
 	useEffect(() => {
 		if(id === "all") {
-			axiosSecure.get(`/books?email=${user.email}`)
+			axiosSecure.get(`/books?email=${user.email}&filter=${toggleFilter}`)
 				.then(res => setBooks(res.data));
 		}
 		axiosSecure.get(`/categories/${id}`)
 			.then(res => setCategory(res.data))
-	}, [axiosSecure, id, user.email])
+	}, [axiosSecure, id, user.email, toggleFilter])
 	
 	return <div className="space-y-16">
 		<div className="space-y-6">
@@ -29,6 +30,7 @@ export default function AllBooks() {
 				: 
 				<h1 className="mx-auto text-5xl font-playfair w-max">{ category } Books</h1>
 			}
+			<button className="block mx-auto btn btn-primary" onClick={ () => setToggleFilter(!toggleFilter) }>Filter</button>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 				{
 					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-neutral/70">

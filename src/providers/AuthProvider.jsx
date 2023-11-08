@@ -11,6 +11,7 @@ import {
 	updateProfile,
 } from "firebase/auth"
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import {useNavigate} from "react-router-dom";
 
 export const AuthContext = createContext({});
 
@@ -18,6 +19,7 @@ export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const axiosSecure = useAxiosSecure();
+	const navigate = useNavigate();
 	
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, currentUser => {
@@ -65,6 +67,7 @@ export default function AuthProvider({ children }) {
 		logoutUser,
 		googleSignInUser,
 		updateProfile,
+		navigate,
 	}
 	return <AuthContext.Provider value={ authUtilities }>
 		{ children }

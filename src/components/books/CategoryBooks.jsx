@@ -53,7 +53,7 @@ export default function CategoryBooks() {
 			<h1 className="mx-auto text-5xl font-playfair w-max">{ category } Books</h1>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 				{
-					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-neutral/70">
+					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-black/60">
 						<div className="w-full p-4 rounded-lg h-max">
 							<img src={ book.image } className="object-contain w-full h-full rounded-lg"/>
 						</div>

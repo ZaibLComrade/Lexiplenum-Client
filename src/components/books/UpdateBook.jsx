@@ -11,24 +11,29 @@ export default function UpdateBook() {
 	const { control, watch, register, handleSubmit, formState: { errors } } = useForm();
 	const { image, title, author, category, rating, quantity, description } = useLoaderData();
 	const [defRating, setDefRating] = useState(rating);
+	console.log("book", useLoaderData());
 	
 	useEffect(() => {
 		axiosSecure.get("/categories")
 			.then(res => setCategories(res.data));
-	}, [])
+	}, [axiosSecure])
 	
 	const onSubmit = data => {
 		const { image, title, author, category, rating, quantity, description } = data;
-		console.log(data);
+		console.log("update", data);
+		const categoryObj = categories.find(categ => categ.id === parseInt(category));
+		console.log("object", categoryObj.category);
 		const newBook = { 
 			image,
 			title,
 			author,
+			category_name: categoryObj.category,
 			category: parseInt(category),
 			quantity: parseInt(quantity),
 			rating: parseFloat(rating),
 			description,
 		}
+		console.log("newBook", newBook);0
 		Swal.fire({
 			title: "Changes can't be reverted",
 			text: "Are you sure you want to save changes?",
@@ -101,17 +106,14 @@ export default function UpdateBook() {
 						defaultValue={ `${defRating}` } 
 						render={({ field }) => (
 						<select {...field} className="input input-bordered">
-							<option value="0">0</option>
-							<option value="0.5">0.5</option>
-							<option value="1.0">1.0</option>
-							<option value="1.5">1.5</option>
-							<option value="2.0">2.0</option>
-							<option value="2.5">2.5</option>
-							<option value="3.0">3.0</option>
-							<option value="3.5">3.5</option>
-							<option value="4.0">4.0</option>
-							<option value="4.5">4.5</option>
-							<option value="5.0">5.0</option>
+							{
+								[...Array(11).keys()].map(i => <option
+									key={i}
+									value={ (i / 2).toFixed(1) }
+								>
+									{ (i/2).toFixed(1) }
+								</option>)
+							}
 						</select>
 						)}
 					/>
@@ -124,7 +126,7 @@ export default function UpdateBook() {
 							<span className="label-text" required>Category</span>
 						</label>
 						<Controller
-							name="cateogry" 
+							name="category" 
 							control={control}
 							defaultValue={ category } 
 							render={({ field }) => (

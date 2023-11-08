@@ -7,7 +7,7 @@ import LoadingScreen from "./LoadingScreen";
 import Footer from "./shared/Footer";
 
 export  default function Root() {
-	const [isDark, setIsDark] = useState(true)
+	const [isDark, setIsDark] = useState(false)
 	const { loading } = useAuth();
 	if(loading) return <LoadingScreen/>
 	

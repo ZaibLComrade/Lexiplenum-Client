@@ -55,11 +55,11 @@ export default function AllBooks() {
 			<button className="block mx-auto btn btn-primary" onClick={ () => setToggleFilter(!toggleFilter) }>Filter</button>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 				{
-					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-neutral/70">
+					books.length ? books.map(book => <div key={ book._id } className="items-center text-center grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-black/60">
 						<div className="w-full p-4 rounded-lg h-max">
 							<img src={ book.image } className="object-contain w-full h-full rounded-lg"/>
 						</div>
-						<div className="flex flex-col justify-between p-4 text-white font-lato lg:h-full gap-6">
+						<div className="flex flex-col justify-between p-4 text-black dark:text-white font-lato lg:h-full gap-6">
 								<div>
 								<h3 className="text-xl font-semibold font-montserrat"><span>Name:</span> <span>{ book.title }</span></h3>
 								<p><span>Author:</span> <span>{ book.author }</span></p>

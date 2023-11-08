@@ -8,7 +8,6 @@ export default function BorrowedBookCard({ book, handleReturn }) {
 	const { user } = useAuth();
 	const axiosSecure = useAxiosSecure();
 	const email = user.email;
-	console.log(dates.borrowed, dates.return);
 	useEffect(() => {
 		axiosSecure.get(`/borrowed-dates?email=${email}`)
 			.then(res => {

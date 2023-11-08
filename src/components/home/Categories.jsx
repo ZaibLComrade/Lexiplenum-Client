@@ -52,7 +52,7 @@ export default function Categories() {
 							<img src={ categ.image } className="object-cover w-full h-full rounded-2xl"/>
 							<div className="absolute top-0 w-full h-full rounded-2xl bg-black/70"></div>
 							<div className="absolute z-10 py-6 mx-auto text-2xl text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 font-lato w-max">
-							<h3 className="mb-6">{ categ.category }</h3>
+							<h3 className="mb-6 text-white">{ categ.category }</h3>
 							<Link to={ `/books/${categ.id}`}><button className="btn btn-primary">Explore</button></Link>
 							</div>
 						</figure>

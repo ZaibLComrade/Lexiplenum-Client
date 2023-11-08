@@ -1,5 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import useAuth from "../../hooks/useAuth";
+import DarkImg from "../../assets/nightmode.png";
 
 const dummyImage = "https://i.postimg.cc/T2bdytT4/tmx6-W6-N-2696144912.png";
 const siteName = "Lexiplenum"
@@ -28,9 +30,14 @@ const listItems = (
 	</>
 );
 
-export default function Navbar() {
+export default function Navbar({ setDark }) {
 	const { user, logoutUser } = useAuth();
-
+	
+	const handleToggle = e => {
+		if(e.target.checked) setDark(true);
+		else setDark(false);
+	}
+	
 	return (
 		<div className="py-4 navbar bg-primary text-custom-grey-1 dark:text-white">
 			<div className="navbar-start font-montserrat">
@@ -62,7 +69,12 @@ export default function Navbar() {
 					to="/"
 					className="text-4xl font-bold normal-case md:text-5xl lg:text-6xl font-great-vibes btn btn-ghost"
 				>
-					{ siteName }
+					<div className="flex items-center gap-2">
+						<div className="h-[50px] hidden md:block w-[50px]">
+							<img src="books.png" className="object-contain w-full h-full" alt=""/>
+						</div>
+						<p>{ siteName }</p>
+					</div>
 				</Link>
 			</div>
 			<div className="hidden navbar-center xl:flex">
@@ -71,6 +83,12 @@ export default function Navbar() {
 				</ul>
 			</div>
 			<div className="navbar-end font-montserrat md:mr-4">
+				<div className="items-center hidden md:flex gap-2">
+					<div className="bg-white border rounded-full">
+						<img src={ DarkImg } className="w-6 h-6"/>
+					</div>
+					<input type="checkbox" className="toggle" defaultChecked onChange={ handleToggle } />
+				</div>
 				<div className="block dropdown dropdown-end md:hidden">
 					<label
 						tabIndex={0}
@@ -90,6 +108,12 @@ export default function Navbar() {
 						tabIndex={0}
 						className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
 					>
+				<div className="flex items-center gap-2">
+					<div className="bg-white border rounded-full">
+						<img src={ DarkImg } className="w-6 h-6"/>
+					</div>
+					<input type="checkbox" className="toggle" defaultChecked onChange={ handleToggle } />
+				</div> 
 						<li>
 							<div className="md:text-right h-max">
 								{user ? (
@@ -159,4 +183,8 @@ export default function Navbar() {
 			</div>
 		</div>
 	);
+}
+
+Navbar.propTypes = {
+	setDark: PropTypes.func,
 }

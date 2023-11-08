@@ -1,9 +1,7 @@
 import { Rating } from "@mui/material";
 import {useEffect, useState} from "react";
 import {useLoaderData, useLocation, Link} from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import LoadingScreen from "../LoadingScreen";
 
 export default function CategoryBooks() {
 	const axiosSecure = useAxiosSecure();
@@ -13,7 +11,6 @@ export default function CategoryBooks() {
 	const locationArr = location.pathname.split('/');
 	const id = locationArr[locationArr.length - 1];
 	const [loading, setLoading] = useState(true);
-	const { user } = useAuth();
 	
 	const skeleton = <div>
 <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
@@ -40,7 +37,7 @@ export default function CategoryBooks() {
 				setCategory(res.data)
 				setLoading(false);
 			})
-	}, [axiosSecure, id, user.email])
+	}, [axiosSecure, id])
 	
 	if(loading) return <div className="py-[50px]">
 		<h1 className="mx-auto text-5xl font-playfair w-max">All Books</h1> 
@@ -51,7 +48,7 @@ export default function CategoryBooks() {
 			{ skeleton }
 		</div>
 	</div>
-	return <div className="space-y-16">
+	return <div className="space-y-16 py-[50px]">
 		<div className="space-y-6">
 			<h1 className="mx-auto text-5xl font-playfair w-max">{ category } Books</h1>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">

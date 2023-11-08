@@ -13,7 +13,7 @@ export  default function Root() {
 	
 	return <div data-theme={ isDark ? "dark" : "light" }>
 		<Headroom>
-			<Navbar setDark={ setIsDark }/>
+			<Navbar setDark={ setIsDark } isDark={ isDark }/>
 		</Headroom>
 		<div className="min-h-[65vh]">
 			<Outlet/>

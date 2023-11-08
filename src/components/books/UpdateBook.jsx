@@ -20,9 +20,7 @@ export default function UpdateBook() {
 	
 	const onSubmit = data => {
 		const { image, title, author, category, rating, quantity, description } = data;
-		console.log("update", data);
 		const categoryObj = categories.find(categ => categ.id === parseInt(category));
-		console.log("object", categoryObj.category);
 		const newBook = { 
 			image,
 			title,
@@ -33,7 +31,6 @@ export default function UpdateBook() {
 			rating: parseFloat(rating),
 			description,
 		}
-		console.log("newBook", newBook);0
 		Swal.fire({
 			title: "Changes can't be reverted",
 			text: "Are you sure you want to save changes?",

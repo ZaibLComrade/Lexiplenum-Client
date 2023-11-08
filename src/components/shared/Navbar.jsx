@@ -1,7 +1,8 @@
 import { NavLink, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import useAuth from "../../hooks/useAuth";
-import DarkImg from "../../assets/nightmode.png";
+import DarkIcon from "../../assets/darkIcon.png";
+import LightIcon from "../../assets/brightIcon.png";
 
 const dummyImage = "https://i.postimg.cc/T2bdytT4/tmx6-W6-N-2696144912.png";
 const siteName = "Lexiplenum"
@@ -30,12 +31,13 @@ const listItems = (
 	</>
 );
 
-export default function Navbar({ setDark }) {
+export default function Navbar({ setDark, isDark }) {
 	const { user, logoutUser } = useAuth();
 	
-	const handleToggle = e => {
-		if(e.target.checked) setDark(false);
-		else setDark(true);
+	const handleToggle = () => {
+		// if(e.target.checked) setDark(!isDark);
+		// else setDark(true);
+		setDark(!isDark);
 	}
 	
 	return (
@@ -84,10 +86,15 @@ export default function Navbar({ setDark }) {
 			</div>
 			<div className="navbar-end font-montserrat md:mr-4">
 				<div className="items-center hidden mr-6 md:flex gap-2">
-					<div className="bg-white border rounded-full">
-						<img src={ DarkImg } className="w-6 h-6"/>
+					<div className="rounded-full">
+						<button 
+							onClick={ handleToggle } 
+							className="flex items-center w-7 h-7"
+						>
+						<img src={ isDark ? LightIcon : DarkIcon } 
+							className="w-full h-full"/>
+						</button>
 					</div>
-					<input type="checkbox" className="toggle" defaultChecked onChange={ handleToggle } />
 				</div>
 				<div className="block dropdown dropdown-end md:hidden">
 					<label
@@ -108,12 +115,18 @@ export default function Navbar({ setDark }) {
 						tabIndex={0}
 						className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
 					>
-				<div className="flex items-center gap-2">
-					<div className="bg-white border rounded-full">
-						<img src={ DarkImg } className="w-6 h-6"/>
-					</div>
-					<input type="checkbox" className="toggle" defaultChecked onChange={ handleToggle } />
-				</div> 
+						<li className="flex mx-auto jusitfy-center w-max">
+							<div className="rounded-full" onClick={ handleToggle }>
+								<button 
+									className="flex items-center w-7 h-7"
+								>
+									<img 
+										src={ isDark ? LightIcon : DarkIcon } 
+										className="w-full h-full"
+									/>
+								</button>
+							</div>
+						</li>
 						<li>
 							<div className="md:text-right h-max">
 								{user ? (
@@ -187,4 +200,5 @@ export default function Navbar({ setDark }) {
 
 Navbar.propTypes = {
 	setDark: PropTypes.func,
+	isDark: PropTypes.bool,
 }

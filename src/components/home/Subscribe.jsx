@@ -7,7 +7,7 @@ export default function Subscribe() {
 				<div className="absolute top-0 w-full h-full bg-black/60"></div>
 				<img className="object-cover w-full h-full" src={ bgImg }/>
 			</div>
-			<h1 className="absolute z-10 text-5xl text-white lg:text-7xl top-20 font-playfair">Subscribe</h1>
+			<h1 className="absolute z-10 text-5xl text-white lg:text-7xl top-5 md:top-20 font-playfair">Subscribe</h1>
 			<div className="z-10 w-full max-w-4xl border-2 border-black bg-black/60 rounded-md p-14">
 				<div className="flex flex-col items-center">
 					<span className="px-2 py-px font-bold bg-yellow-100 rounded-lg text-secondary -rotate-1 font-dancing">More than 1600 subscribers join us daily</span>

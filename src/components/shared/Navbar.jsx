@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import useAuth from "../../hooks/useAuth";
 import DarkIcon from "../../assets/darkIcon.png";
 import LightIcon from "../../assets/brightIcon.png";
+import logo from "/books.png";
 
 const dummyImage = "https://i.postimg.cc/T2bdytT4/tmx6-W6-N-2696144912.png";
 const siteName = "Lexiplenum"
@@ -73,7 +74,7 @@ export default function Navbar({ setDark, isDark }) {
 				>
 					<div className="flex items-center gap-2">
 						<div className="h-[50px] hidden md:block w-[50px]">
-							<img src="books.png" className="object-contain w-full h-full" alt=""/>
+							<img src={ logo } className="object-contain w-full h-full" alt=""/>
 						</div>
 						<p>{ siteName }</p>
 					</div>

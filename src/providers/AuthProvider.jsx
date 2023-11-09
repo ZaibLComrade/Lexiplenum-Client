@@ -10,14 +10,14 @@ import {
 	signInWithPopup,
 	updateProfile,
 } from "firebase/auth"
-import useAxiosSecure from "../hooks/useAxiosSecure";
+import axios from "axios";
+import url from "../url";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const axiosSecure = useAxiosSecure();
 	
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, currentUser => {
@@ -26,13 +26,13 @@ export default function AuthProvider({ children }) {
 			setUser(currentUser);
 			setLoading(false);
 			if(currentUser) {
-				axiosSecure.post(`/jwt?method=login`, userCredential)
+				axios.post(`${url}/jwt?method=login`, userCredential)
 			} else {
-				axiosSecure.post(`/jwt?method=logout`, userCredential)
+				axios.post(`${url}/jwt?method=logout`, userCredential)
 			}
 		})
 		return () => unsubscribe();
-	}, [axiosSecure, user?.email])
+	}, [user?.email])
 	
 	const registerUser = (email, password) => {
 		setLoading(false);
@@ -48,7 +48,7 @@ export default function AuthProvider({ children }) {
 		setLoading(false);
 		return signOut(auth);
 	}
-
+	
 	const googleSignInUser = () => {
 		setLoading(false);
 		const provider = new GoogleAuthProvider;

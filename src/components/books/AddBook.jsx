@@ -1,41 +1,50 @@
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {useEffect, useState} from "react";
-import useAuth from "../../hooks/useAuth";
+import { useParams} from "react-router-dom";
 
 export default function AddBook() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
-	const { register, handleSubmit, formState: { errors } } = useForm();
-	const { user } = useAuth()
+	const params = useParams();
+	const { control, register, handleSubmit, formState: { errors } } = useForm();
+	const [defCateg, setDefCateg] = useState(0);
 	
 	useEffect(() => {
 		axiosSecure.get("/categories")
-			.then(res => setCategories(res.data));
+			.then(res => {
+				setCategories(res.data);
+				setDefCateg(res.data[0].id);
+			});
 	}, [axiosSecure])
 	
-	const onSubmit = newBook => {
-		axiosSecure.post(`/books?email=${user.email}`, newBook)
-			.then(res => {
-				if(res.data.acknowledged) {
+	const onSubmit = data => {
+		const { image, title, author, category, rating, quantity, description } = data;
+		const categoryObj = categories.find(categ => categ.id === parseInt(category || defCateg));
+		const newBook = { 
+			image,
+			title,
+			author,
+			category_name: categoryObj.category,
+			category: parseInt(category || defCateg),
+			quantity: parseInt(quantity),
+			rating: parseFloat(rating),
+			description,
+		}
+		
+		axiosSecure.patch(`/book/${params.id}`, newBook)
+			.then(result => {
+				if(result?.data.acknowledged) {
 					Swal.fire({
 						title: 'Added!',
-						text: 'Item has been added successfully',
+						text: 'Book has been updated successfully',
 						icon: 'success',
 						confirmButtonText: 'Cool'
 					})
 				}
 			})
-			.catch(err => {
-					if(err.response.status === 401) {
-					Swal.fire({
-						title: err.response.statusText,
-						icon: "error",
-						cancelButtonText: "Close"
-					})
-				}
-			})
+			.catch(err => console.log(err));
 	};
 	const onError = errors => {
 		Swal.fire({
@@ -46,7 +55,7 @@ export default function AddBook() {
 	};
 	
 	return <div className="container mx-auto py-[70px] space-y-6">
-		<h1 className="mx-auto text-5xl w-max">Add Book</h1>
+		<h1 className="mx-auto text-5xl w-max">Update Book</h1>
 		<div className="mb-[120px] bg-custom-white-1">
 			<form onSubmit={ handleSubmit(onSubmit, onError) } className="p-6 mx-auto md:w-[70%] gap-4 grid grid-cols-1 md:grid-cols-2">
 				{/* Book Name */}
@@ -78,19 +87,23 @@ export default function AddBook() {
 					<label className="label">
 						<span className="label-text">Rating</span>
 					</label>
-					<select {...register("rating")} className="input-bordered input">
-						<option value="0">0</option>
-						<option value="0.5">0.5</option>
-						<option value="1.0">1.0</option>
-						<option value="1.5">1.5</option>
-						<option value="2.0">2.0</option>
-						<option value="2.5">2.5</option>
-						<option value="3.0">3.0</option>
-						<option value="3.5">3.5</option>
-						<option value="4.0">4.0</option>
-						<option value="4.5">4.5</option>
-						<option value="5.0">5.0</option>
-					</select>
+					<Controller
+						name="rating" 
+						control={control}
+						defaultValue="0.0" 
+						render={({ field }) => (
+						<select {...field} className="input input-bordered">
+							{
+								[...Array(11).keys()].map(i => <option
+									key={i}
+									value={ (i / 2).toFixed(1) }
+								>
+									{ (i/2).toFixed(1) }
+								</option>)
+							}
+						</select>
+						)}
+					/>
 				</div>
 				
 				<div className="col-span-1 space-y-4 md:col-span-2">
@@ -99,11 +112,22 @@ export default function AddBook() {
 						<label className="label">
 							<span className="label-text" required>Category</span>
 						</label>
-						<select {...register("category")} className="input-bordered input">
+						<Controller
+							name="category" 
+							control={control}
+							defaultValue={ defCateg }
+							render={({ field }) => (
+							<select {...field} className="input input-bordered">
+							
 							{
-								categories.map(categ => <option key={categ._id} value={ categ.id }>{categ.category}</option>)
+								categories.map(categ => <option key={categ._id} 
+									value={ categ.id }>
+										{categ.category}
+								</option>)
 							}
-						</select>
+							</select>
+							)}
+						/>
 					</div>
 					
 					{/* Short Description */}
@@ -117,7 +141,7 @@ export default function AddBook() {
 					{/* Photo */}
 					<div className="w-full form-control">
 						<label className="label">
-							<span className="label-text">Thumbnail URL (required)</span>
+							<span className="label-text">Thumbnail URL (Required)</span>
 						</label>
 						<input {...register("image", { required: true })} type="url" placeholder="Enter photo URL" className="w-full input input-bordered"/>
 					</div>

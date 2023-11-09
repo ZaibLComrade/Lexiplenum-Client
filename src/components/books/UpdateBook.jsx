@@ -8,10 +8,8 @@ export default function UpdateBook() {
 	const [categories, setCategories] = useState([])
 	const axiosSecure = useAxiosSecure();
 	const params = useParams();
-	const { control, watch, register, handleSubmit, formState: { errors } } = useForm();
+	const { control, register, handleSubmit, formState: { errors } } = useForm();
 	const { image, title, author, category, rating, quantity, description } = useLoaderData();
-	const [defRating, setDefRating] = useState(rating);
-	console.log("book", useLoaderData());
 	
 	useEffect(() => {
 		axiosSecure.get("/categories")
@@ -41,9 +39,8 @@ export default function UpdateBook() {
 		}).then(res => {
 			if(res.isConfirmed) {
 				axiosSecure.patch(`/book/${params.id}`, newBook)
-					.then(res => {
-						console.log(res.data);
-						if(res.data.acknowledged) {
+					.then(result => {
+						if(result?.data.acknowledged) {
 							Swal.fire({
 								title: 'Added!',
 								text: 'Book has been updated successfully',
@@ -52,6 +49,7 @@ export default function UpdateBook() {
 							})
 						}
 					})
+					.catch(err => console.log(err));
 			}
 		})
 
@@ -100,7 +98,7 @@ export default function UpdateBook() {
 					<Controller
 						name="rating" 
 						control={control}
-						defaultValue={ `${defRating}` } 
+						defaultValue={ rating } 
 						render={({ field }) => (
 						<select {...field} className="input input-bordered">
 							{

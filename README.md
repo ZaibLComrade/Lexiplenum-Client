@@ -1,7 +1,12 @@
 # Lexiplenum
 # https://lexiplenum.web.app
 
+## Librarian Credentials
+- Email: librarian@lexiplenum.com
+- Password: Librarian#123
+
 ## Features
+- Librarian can perform update operation in "All Books" route
 - 4 different loading spinners displays randomly
 - Parallax slider banner
 - Secured data with jwt based token

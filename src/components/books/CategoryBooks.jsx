@@ -51,14 +51,14 @@ export default function CategoryBooks() {
 	}, [axiosSecure, id])
 	
 	if(loading) return <div className="py-[50px] space-y-6">
-		<h1 className="mx-auto text-5xl font-playfair w-max">Books</h1> 
+		<h1 className="w-full mx-auto text-5xl font-playfair">Books</h1> 
 		<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 			{ [...Array(4).keys()].map(i => skeleton) }
 		</div>
 	</div>
 	return <div className="space-y-16 py-[50px]">
 		<div className="space-y-6">
-			<h1 className="mx-auto text-5xl font-playfair w-max">{ category } Books</h1>
+			<h1 className="w-full mx-auto text-2xl text-center md:text-5xl font-playfair">{ category } Books</h1>
 			<div className="container p-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 				{
 					books.length ? books.map(book => <div key={ book._id } className="items-center text-center p-7 grid grid-cols-1 md:grid-cols-2 lg:text-left rounded-xl bg-black/60">

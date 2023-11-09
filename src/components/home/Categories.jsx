@@ -28,13 +28,13 @@ export default function Categories() {
 	}, [axiosSecure])
 	
 	if(loading) return <div className="p-8 mx-auto space-y-12">
-		<div className="mx-auto w-max"><span className="text-6xl font-raleway">Categories</span></div>
+		<div className="mx-auto w-max"><span className="text-3xl md:text-6xl font-raleway">Categories</span></div>
 		<div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 			{ [...Array(4).keys()].map(i => skeleton) }
 		</div>
 	</div>
 	return <div className="p-8 mx-auto space-y-12">
-		<div className="mx-auto w-max"><span className="text-6xl font-raleway">Categories</span></div>
+		<div className="mx-auto w-max"><span className="text-3xl md:text-6xl font-raleway">Categories</span></div>
 		<div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 			{
 				categories.length ? categories.map(categ => <div key={ categ._id }>

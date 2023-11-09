@@ -16,12 +16,9 @@ export default function useAxiosSecure() {
 	
 	useEffect(() => {
 		axiosSecure.interceptors.response.use(res => {
-				console.log("response", res);
 				return res;
 			}, err => {
-				console.log(err.response)
 				if(err.response.status === 401) {
-					console.log("User was logged out");
 					logoutUser()
 						.then(() => {
 							Swal.fire({
@@ -42,12 +39,6 @@ export default function useAxiosSecure() {
 						denyButtonText: "Close"
 					})
 				}
-		})
-		axiosSecure.interceptors.request.use(req => {
-			console.log("request", req)
-			return req;
-		}, err => {
-			console.log(err)
 		})
     }, [])
 	

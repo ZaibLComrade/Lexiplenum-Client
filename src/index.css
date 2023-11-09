@@ -28,7 +28,7 @@
 .underlay {
   width: 0px;
   height: 4px;
-  background-color: #00CED1;
+  background-color: #FF7F50;
   position: absolute;
   border-radius: 100px;
   left: 50%;
@@ -39,13 +39,13 @@
 }
 
 .underlay-parent:hover {
-  color: #00CED1;
+  color: #FF7F50;
 }
 
 .active {
   background-color: transparent !important;
   z-index: 10;
-  color: #00CED1 !important;
+  color: #FF7F50 !important;
   font-weight: 600;
 }
 

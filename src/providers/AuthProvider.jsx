@@ -26,9 +26,11 @@ export default function AuthProvider({ children }) {
 			setUser(currentUser);
 			setLoading(false);
 			if(currentUser) {
-				axios.post(`${url}/jwt?method=login`, userCredential)
+				console.log("logged in", currentUser?.email);
+				axios.post(`${url}/jwt?method=login`, userCredential, { withCredentials: true })
 			} else {
-				axios.post(`${url}/jwt?method=logout`, userCredential)
+				console.log("logged out", currentUser?.email);
+				axios.post(`${url}/jwt?method=logout`, userCredential, { withCredentials: true })
 			}
 		})
 		return () => unsubscribe();

@@ -6,7 +6,12 @@ export default {
 	],
 	
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				"dark-contrast": "#FFFFFF",
+				"light-contrast": "#333333"
+			}
+		},
 	},
 	
 	plugins: [
@@ -17,20 +22,20 @@ export default {
 		themes: [
 			{
 				light: {
-					"primary": "#007ACC",
-					"secondary": "#00A87E",
-					"accent": "#DC143C",
-					"neutral": "#F9F9F9",
+					"primary": "#1565C0",
+					"secondary": "#FF6F61",
+					"accent": "#4CAF50",
+					"neutral": "#E0E0E0",
 					"base-100": "#ffffff",
 				},
 			},
 			{
 				dark: {
-					"primary": "#1E90FF",
-					"secondary": "#00CED1",
-					"accent": "#FF7F50",
-					"neutral": "#1A1A1A",
-					"base-100": "#2E2E2E"
+					"primary": "#40C4FF",
+					"secondary": "#FF6F61",
+					"accent": "#FFD700",
+					"neutral": "#121212",
+					"base-100": "#2C2C2C"
 				}
 			}
 		],

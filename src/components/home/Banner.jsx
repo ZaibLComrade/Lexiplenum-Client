@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import banner from "../../assets/banner.jpg";
 import sliderImg1 from "../../assets/slider1.png";
@@ -42,9 +41,11 @@ export default function App() {
 					<div className="absolute top-0 w-full h-full bg-black/60"></div>
 					<img src={ banner } className="object-cover w-full h-full"/>
 				</div>
+				
+				{/* Slide 1 */}
 				<SwiperSlide>
-					<div className="flex items-center justify-around max-md:relative">
-						<div className="shrink-0">
+					<div className="flex flex-col flex-col-reverse items-center justify-around h-full lg:flex-row">
+						<div className="max-md:text-center shrink-0">
 							<div className="md:text-[41px] md:font-[300] text-[24px]" data-swiper-parallax="-300">
 								Discover the World of Books
 							</div>
@@ -58,15 +59,17 @@ export default function App() {
 							</div>
 						</div>
 						<div className="flex items-center justify-right">
-							<div className="h-[600px]">
-								<img className="object-contain w-full h-full" src={ sliderImg1 } />
+							<div className="max-h-[600px]">
+								<img className="object-contain w-full max-h-[600px] md:max-h-[400px]" src={ sliderImg1 } />
 							</div>
 						</div>
 					</div>
 				</SwiperSlide>
+				
+				{/* Slide 2 */}
 				<SwiperSlide>
-					<div className="flex flex-row-reverse items-center justify-around">
-						<div className="shrink-0">
+					<div className="flex flex-row-reverse flex-col flex-col-reverse items-center justify-around h-full lg:flex-row">
+						<div className="text-center shrink-0">
 							<div className="md:text-[41px] md:font-[300] text-[24px]" data-swiper-parallax="-300">
 								Library Beyond Boundaries
 							</div>
@@ -79,7 +82,7 @@ export default function App() {
 							</div>
 						</div>
 						<div className="flex items-center justify-right">
-							<div className="h-[600px]">
+							<div className="max-h-[600px]">
 								<div className="relative flex items-center">
 									<img className="z-20 object-contain w-full h-full" src={ sliderImg3 } />
 									<div className="absolute w-[83.6%] h-[79.5%] left-[9.15%] top-[4.45%] z-10">
@@ -90,9 +93,11 @@ export default function App() {
 						</div>
 					</div>
 				</SwiperSlide>
+				
+				{/* Slide 3 */}
 				<SwiperSlide>
-					<div className="flex items-center justify-around">
-						<div className="shrink-0">
+					<div className="flex flex-col flex-col-reverse items-center justify-around h-full lg:flex-row">
+						<div className="text-center shrink-0">
 							<div className="md:text-[41px] md:font-[300] text-[24px]" data-swiper-parallax="-300">
 								Connecting Through Stories
 							</div>
@@ -105,8 +110,8 @@ export default function App() {
 							</div>
 						</div>
 						<div className="flex items-center justify-right">
-							<div className="h-[600px]">
-								<img className="object-contain w-full h-full" src={ sliderImg2 } />
+							<div className="max-h-[600px]">
+								<img className="object-contain w-full max-h-[600px] md:max-h-[400px]" src={ sliderImg2 } />
 							</div>
 						</div>
 					</div>

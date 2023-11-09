@@ -50,7 +50,7 @@ export default function MeetAuthors() {
                     <div className="space-y-4">
                       <div className="text-lg font-medium space-y-1 leading-6">
                         <h3>{person.name}</h3>
-                        <p className="text-indigo-600">{person.genre} Author</p>
+                        <p className="text-accent">{person.genre} Author</p>
                       </div>
                       <div className="text-lg">
                         <p className="text-gray-500">{person.description}</p>

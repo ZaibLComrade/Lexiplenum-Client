@@ -180,7 +180,7 @@ export default function Navbar({ setDark, isDark }) {
 				<div className="items-center hidden md:flex">
 					{user ? (
 						<button
-							className="ml-2 btn btn-secondary"
+							className="ml-2 text-white btn btn-secondary"
 							onClick={logoutUser}
 						>
 							Sign Out
@@ -188,7 +188,7 @@ export default function Navbar({ setDark, isDark }) {
 					) : (
 						<Link
 							to="/login"
-							className="ml-2 btn btn-secondary"
+							className="ml-2 text-white btn btn-secondary"
 						>
 							Login
 						</Link>

@@ -2,8 +2,8 @@ import communityImg from "../../assets/community.jpg";
 
 export default function JoinUs() {
   return (
-    <div className="relative bg-gray-900">
-      <div className="relative overflow-hidden bg-indigo-600 h-80 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
+    <div className="relative bg-neutral">
+      <div className="relative overflow-hidden bg-primary h-80 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
         <img
           className="object-cover w-full h-full"
           src={ communityImg }
@@ -36,15 +36,15 @@ export default function JoinUs() {
       </div>
       <div className="relative py-24 mx-auto max-w-7xl sm:py-32 lg:py-40 lg:px-8">
         <div className="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
-          <h2 className="text-base font-semibold text-indigo-400 leading-7">Meet new people</h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-white">Join our community</p>
-          <p className="mt-6 text-base text-gray-300 leading-7">
+          <h2 className="text-base font-semibold text-primary leading-7">Meet new people</h2>
+          <p className="mt-2 text-4xl font-bold tracking-tight">Join our community</p>
+          <p className="mt-6 text-base leading-7">
             Joining our community is your gateway to a world of connection, shared passions, and endless possibilities. As a member, you'll have the opportunity to engage with fellow enthusiasts, access exclusive events, and contribute to our vibrant library ecosystem. Embrace the sense of belonging, collaboration, and the joy of shared experiences. Join the community and become a valued part of our literary family.
           </p>
           <div className="mt-8">
             <a
               href="#"
-              className="inline-flex rounded-md bg-white/10 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="btn btn-accent"
             >
               Learn More
             </a>

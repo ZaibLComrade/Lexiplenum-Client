@@ -1,9 +1,8 @@
 # Lexiplenum
-# https://lexiplenum.web.app
+### Live Link: https://lexiplenum.web.app
+## Overview
+A sophisticated web-based library management system designed to streamline the borrowing and leding of books.
 
-## Librarian Credentials
-- Email: librarian@lexiplenum.com
-- Password: Librarian#123
 
 ## Features
 - Librarian can perform update operation in "All Books" route
@@ -21,3 +20,14 @@
 - 5 start based rating system
 - Light and dark mode
 - Displays user name and profile picture when user is logged in
+
+## Technologies
+- React
+- MongoDB
+- JWT
+- Firebase
+
+## Librarian Credentials
+- Email: librarian@lexiplenum.com
+- Password: Librarian#123
+

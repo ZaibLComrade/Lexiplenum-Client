@@ -1,7 +1,7 @@
 # Lexiplenum
 ### Live Link: https://lexiplenum.web.app
 ## Overview
-A sophisticated web-based library management system designed to streamline the borrowing and leding of books.
+A sophisticated web-based library management system designed to streamline the borrowing and lending of books.
 
 
 ## Features
